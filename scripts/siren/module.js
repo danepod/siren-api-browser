@@ -56,8 +56,7 @@ angular
 
         var self = this;
         var deferred = $q.defer();
-
-        $http.get(url).success(function(data, status, headers, config) {
+        var responseHandler = function(data, status, headers, config) {
           var state = classRouter.resolve(data.class);
 
           self.current = { state: state, entity: data };
@@ -78,7 +77,12 @@ angular
           if (immediateReturn && (stateIsUnknown || resolveIfKnown)) {
             deferred.resolve(data);
           }
-        });
+        };
+
+        // Try to process the response even if it's not a success
+        $http.get(url)
+          .success(responseHandler)
+          .error(responseHandler);
 
         if (immediateReturn) {
           return deferred.promise;
