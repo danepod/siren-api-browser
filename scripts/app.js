@@ -58,9 +58,9 @@ angular
 
         var controls = $('<div>').addClass('controls');
 
-        if (field.type === 'radio' || field.type === 'checkbox') {
+        if (field.type === 'radio') {
           angular.forEach(field.value, function(val, key) {
-            model = (field.type === 'radio') ? 'action.fields[' + i + '].value' : 'action.fields[' + i + '].value['+ key +']';
+            var model = (field.type === 'radio') ? 'action.fields[' + i + '].value' : 'action.fields[' + i + '].value['+ key +']';
             var input = $('<input>')
               .attr('name', field.name)
               .attr('id', scope.action.name + field.name + val.value)
