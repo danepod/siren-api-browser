@@ -6,6 +6,7 @@
   </div>
 </div>
 <div id="response" class="row" ng-cloak ng-init="init()">
+  <h3>{{main.title}}</h3>
   <div class="col-md-4">
     <div id="class" ng-show="main.class">
       <h3>Class</h3>
@@ -20,7 +21,7 @@
       <ul>
         <li ng-repeat="link in main.links">
         <a ng-href="#/entity?url={{ link.href | encodeURIComponent }}"
-         class="entity-link {{ link.rel }}">{{ link.rel }}</a>
+         class="entity-link {{ link.rel }}">{{ link.title || link.rel }}</a>
         </li>
       </ul>
     </div>
@@ -66,7 +67,11 @@
       </div>
       <br/>
       <accordion close-others="isOneAtATime">
-        <accordion-group ng-repeat="entity in main.entities" heading="{{entity.heading}}" is-open="$first">
+        <accordion-group ng-repeat="entity in main.entities" is-open="$first">
+          <accordion-heading>
+            <span ng-show="entity.title">{{entity.title}}</span>
+            <span ng-show="!entity.title">{{entity.heading}}</span>
+          </accordion-heading>
           <div ng-show="entity.properties.length">
             <h4>Properties</h4>
             <pre>{{entity.properties}}</pre>
@@ -76,7 +81,7 @@
             <ul>
               <li ng-repeat="link in entity.links">
               <a ng-href="#/entity?url={{ link.href | encodeURIComponent }}"
-               class="entity-link {{ link.rel }}">{{ link.rel }}</a>
+               class="entity-link {{ link.rel }}">{{ link.title || link.rel }}</a>
               </li>
             </ul>
           </div>

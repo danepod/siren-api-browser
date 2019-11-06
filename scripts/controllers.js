@@ -106,6 +106,7 @@ SurfaceCtrls.EntityCtrl = function($scope, $state, $http, $location, navigator) 
       var config = result.config;
 
       $scope.main.properties = null;
+      $scope.main.title = null;
       $scope.main.class = null;
       $scope.main.actions = [];
       $scope.main.entities = [];
@@ -123,6 +124,7 @@ SurfaceCtrls.EntityCtrl = function($scope, $state, $http, $location, navigator) 
 
     $scope.main.properties = JSON.stringify(data.properties, null, 2);
     $scope.main.class = JSON.stringify(data.class);
+    $scope.main.title = data.title;
     $scope.main.actions = data.actions;
 
     if (data.entities) {
@@ -143,9 +145,7 @@ SurfaceCtrls.EntityCtrl = function($scope, $state, $http, $location, navigator) 
         if (entity.links) {
           var links = [];
           angular.forEach(entity.links, function(link) {
-            angular.forEach(link.rel, function(rel) {
-              links.push({ rel: rel, href: link.href });
-            });
+              links.push({ rel: link.rel, href: link.href });
           });
 
           entity.links = links;
@@ -157,9 +157,7 @@ SurfaceCtrls.EntityCtrl = function($scope, $state, $http, $location, navigator) 
 
     if (data.links) {
       angular.forEach(data.links, function(link) {
-        angular.forEach(link.rel, function(rel) {
-          $scope.main.links.push({ rel: rel, href: link.href });
-        });
+          $scope.main.links.push({ rel: link.rel, href: link.href, title: link.title });
       });
     }
   };
